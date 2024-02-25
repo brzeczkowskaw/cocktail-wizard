@@ -6,10 +6,11 @@ export const useCocktailsStore = defineStore("cocktailsStore", {
   state: (): CocktailsState => ({
     randomCocktails: [],
     isLoadingCocktails: false,
+    cocktail: null,
   }),
   actions: {
     async getRandomCocktails() {
-      this.randomCocktails = [];
+      if (this.randomCocktails.length > 0) return;
       this.isLoadingCocktails = true;
       try {
         for (let number = 0; number < 12; number++) {
@@ -27,5 +28,21 @@ export const useCocktailsStore = defineStore("cocktailsStore", {
         this.isLoadingCocktails = false;
       }
     },
+    async getCocktailById(id: string) {
+      this.isLoadingCocktails = true;
+      try {
+          const { data } = await axios.get(
+            `https://thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`
+          );
+          const cocktail = Object.fromEntries(
+            Object.entries(data.drinks[0]).filter(([_, v]) => v != null)
+          );
+          this.cocktail = cocktail;
+          this.isLoadingCocktails = false;
+      } catch (error: any) {
+        alert(error.message);
+        this.isLoadingCocktails = false;
+      }
+    }
   },
 });
