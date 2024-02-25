@@ -31,6 +31,7 @@ export interface User {
 export interface CocktailsState {
   randomCocktails: Cocktail[];
   isLoadingCocktails: boolean;
+  cocktail: Cocktail | null;
 }
 
 export interface Cocktail {

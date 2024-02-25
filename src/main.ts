@@ -1,12 +1,12 @@
-import { createApp } from "vue";
-import { createPinia } from "pinia";
-import vuetify from "./plugins/vuetify";
-import App from "./App.vue";
-import router from "./router";
-import firebase from "firebase/compat/app";
-import "firebase/compat/storage";
-import "@mdi/font/css/materialdesignicons.css";
-import "@fortawesome/fontawesome-free/css/all.css";
+import { createApp } from "vue"
+import { createPinia } from "pinia"
+import vuetify from "./plugins/vuetify"
+import App from "./App.vue"
+import router from "./router"
+import firebase from "firebase/compat/app"
+import "firebase/compat/storage"
+import "@mdi/font/css/materialdesignicons.css"
+import "@fortawesome/fontawesome-free/css/all.css"
 
 const pinia = createPinia();
 

@@ -7,13 +7,18 @@ const router = createRouter({
     {
       path: "/",
       name: "Home page",
-      meta: { layout: MainLayout, title: "Fridge recepies" },
+      meta: { layout: MainLayout, title: "Cocktail wizard" },
       component: () => import("../views/Home.vue"),
     },
     {
       path: "/sign-in",
       meta: { layout: MainLayout, title: "Login" },
       component: () => import("../views/SignIn.vue"),
+    },
+    {
+      path: "/cocktail/:id",
+      meta: { layout: MainLayout, title: "Cocktail" },
+      component: () => import("../views/Cocktail.vue"),
     },
   ],
 });
