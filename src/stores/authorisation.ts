@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { AuthorisationState } from "../types";
 import firebase from "firebase/compat/app";
+import { updateProfile } from "firebase/auth";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
@@ -10,13 +11,14 @@ export const useAuthorisationStore = defineStore("authorisationStore", {
     loginMessageError: null,
   }),
   actions: {
-    async register(email: string, password: string) {
+    async register(email: string, password: string, name: string) {
       try {
         const data = await firebase
           .auth()
           .createUserWithEmailAndPassword(email, password);
         this.user = data.user;
-        console.log(data.user);
+        const newUser = await updateProfile(this.user, { displayName: name });
+        this.user = newUser;
         this.loginMessageError = null;
       } catch (error: any) {
         switch (error.code) {
@@ -46,7 +48,6 @@ export const useAuthorisationStore = defineStore("authorisationStore", {
           .signInWithEmailAndPassword(email, password);
         this.user = data.user;
         this.loginMessageError = null;
-        console.log(data.user);
       } catch (error: any) {
         switch (error.code) {
           case "auth/invalid-email":
@@ -73,5 +74,31 @@ export const useAuthorisationStore = defineStore("authorisationStore", {
         alert(error.message);
       }
     },
+    async onStatusChange(): Promise<boolean | void> {
+      firebase.auth().onAuthStateChanged(async user => {
+        if (user) {
+          await this.checkAndRefreshToken(user);
+          this.user = user;
+          return true;
+        } else {
+          this.user = null;
+          return false;
+        }
+      });
+    },
+    async checkAndRefreshToken(user: firebase.User) {
+        try {
+          const idTokenResult = await user.getIdTokenResult();
+
+          const tokenExpirationTime = parseInt(idTokenResult.expirationTime);
+          const currentTime = Math.floor(Date.now() / 1000);
+
+          if (tokenExpirationTime - currentTime < 300) {
+            await user.getIdToken(true);
+          }
+        } catch (error) {
+          console.error('Error checking or refreshing token:', error);
+        }
+      }
   },
 });

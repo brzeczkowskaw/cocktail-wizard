@@ -5,6 +5,9 @@ import CocktailSmallCard from '../components/CocktailSmallCard.vue'
 const cocktailsStore = useCocktailsStore();
 
 cocktailsStore.getRandomCocktails();
+cocktailsStore.getTagsInfo();
+
+console.log(cocktailsStore.tagsInfo);
 
 </script>
 
