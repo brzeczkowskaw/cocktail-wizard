@@ -9,6 +9,7 @@ const router = useRouter();
 const email = ref();
 const password = ref();
 const repeatPassword = ref();
+const name = ref();
 const isLogin = ref(true);
 const showPassword = ref(false);
 const tab = ref();
@@ -28,7 +29,7 @@ async function login() {
 
 async function register() {
   try {
-    await authorisationStore.register(email.value, password.value);
+    await authorisationStore.register(email.value, password.value, name.value);
     if(authorisationStore.user) router.push("/");
   } catch (error) {
     console.log(error)
@@ -126,6 +127,12 @@ function isRegistrationValid() {
       <v-window-item value="register" align="center">
         <v-card class="pa-4 ma-3 sign-in-card" elevation="4">
           <h2 class="my-1">Create an Account</h2>
+          <v-text-field 
+            v-model="name" 
+            placeholder="Name" 
+            variant="solo" 
+            class="input-area" 
+          />
           <v-text-field 
             v-model="email" 
             placeholder="Email" 

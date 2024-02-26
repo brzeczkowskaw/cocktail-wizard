@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { useAuthorisationStore } from './stores/authorisation'
 
+const authorisationStore = useAuthorisationStore();
 const route = useRoute();
+const router = useRouter();
+
+onMounted(() => {
+  const isUserLoggedIn = authorisationStore.onStatusChange();
+  if (!isUserLoggedIn) router.push('/');
+})
 
 const layoutComponent = computed(() => {
   return route.meta.layout;

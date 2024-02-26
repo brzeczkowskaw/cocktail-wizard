@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useAuthorisationStore } from '../stores/authorisation'
 import { useRouter } from "vue-router";
 
@@ -7,6 +7,9 @@ const authorisationStore = useAuthorisationStore();
 const router = useRouter();
 
 const isSidebarOpen = ref(false);
+const isUserLoggedIn = computed(() => {
+  return !!authorisationStore.user?.uid;
+})
 
 const menuItems = [
   {
@@ -16,14 +19,36 @@ const menuItems = [
       prependIcon: 'mdi-home'
     }
   },
-  {
-    title: 'Log in',
-    props: {
-      to: '/sign-in',
-      prependIcon: 'mdi-login'
-    }
-  },
 ]
+
+const topMenuItems = computed(() => {
+  if (isUserLoggedIn.value) {
+    return [
+      {
+        icon: 'mdi-logout',
+        title: 'Log out',
+        action: 'logout'
+      }
+    ]
+  } else {
+    return [
+      {
+        icon: 'mdi-login',
+        title: 'Log in',
+        action: 'login'
+      }
+    ]
+  }
+})
+
+function menuActionClick(action: string) {
+  if (action === 'logout') {
+    logout();
+  }
+  if (action === 'login') {
+    router.push("/sign-in");
+  }
+}
 
 async function logout() {
   try {
@@ -38,10 +63,41 @@ async function logout() {
 <template>
   <span>
     <div>
-      <v-app-bar prominent elevation="6" density="compact" color="primary">
-        <v-app-bar-nav-icon @click="isSidebarOpen = !isSidebarOpen"/>
-        <h3>Custom cocktail wizard</h3>
-        <spacer />
+      <v-app-bar 
+        prominent 
+        elevation="6" 
+        density="compact" 
+        color="primary"
+      >
+        <v-app-bar-nav-icon v-if="isUserLoggedIn" @click="isSidebarOpen = !isSidebarOpen"/>
+        <h3 :class="isUserLoggedIn ? '' : 'ml-6'">Custom cocktail wizard</h3>
+        <v-spacer />
+        <div v-if="isUserLoggedIn">
+          Hello <b>{{ authorisationStore.user.displayName || authorisationStore.user.email }}</b>!
+        </div>
+        <div v-else>
+          <v-icon>mdi-account-circle</v-icon>
+        </div>
+        <v-menu>
+          <template #activator="{ props }">
+            <v-btn text v-bind="props">
+              <v-icon>mdi-chevron-down</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="item in topMenuItems"
+              :key="item.action"
+              :test-id="item.action"
+              @click="menuActionClick(item.action)"
+            >
+              <template #prepend>
+                <v-icon left class="mr-4">{{ item.icon }}</v-icon>
+              </template>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-app-bar>
     </div>
     <v-navigation-drawer 
@@ -58,15 +114,6 @@ async function logout() {
         nav
         density="compact"
       />
-      <div>
-        <v-btn
-          variant="plain"
-          @click="logout"
-        >
-          <v-icon class="mr-3">mdi-logout</v-icon>
-          logout
-        </v-btn>
-      </div>
     </v-navigation-drawer>
   </span>
 </template>
