@@ -34,9 +34,9 @@ function goToRecipe() {
       class="my-2 rounded-xl"
     />
     <v-card-title>
-      <h4>
+      <h5>
         {{ props.cocktail.strDrink }}
-      </h4>
+      </h5>
     </v-card-title>
     <v-card-text>
       <v-btn

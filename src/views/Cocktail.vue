@@ -3,13 +3,15 @@ import { ref, computed } from 'vue'
 import { useCocktailsStore } from '../stores/cocktails'
 import { useRouter, useRoute } from 'vue-router'
 import { Cocktail } from '../types'
+import TagsInfoDialog from '../components/TagsInfoDialog.vue'
 
 const cocktailsStore = useCocktailsStore();
 const router = useRouter(); 
 const route = useRoute(); 
 
 const cocktailId = route.params.id as string;
-const cocktail = ref<Cocktail | null>()
+const cocktail = ref<Cocktail | null>();
+const isInfoDialogOpen = ref(false);
 
 const storeHasRandomCocktails = computed(() => {
   return cocktailsStore.randomCocktails.length > 0;
@@ -47,7 +49,6 @@ const ingredients = computed(() => {
   }
   return ingredientList;
 })
-
 </script>
 
 <template>
@@ -95,7 +96,15 @@ const ingredients = computed(() => {
     <v-row v-if="cocktail">
       <v-col cols="12" sm="6">
         <v-row class="mt-4">
-          Tags
+          Tags 
+          <v-icon 
+            class="mx-2" 
+            size="x-small" 
+            color="grey"
+            @click="isInfoDialogOpen = true"
+          >
+            mdi-information-slab-circle
+          </v-icon>
         </v-row>
         <v-row class="mt-4">
           <v-col cols="12" v-if="cocktail.strGlass">
@@ -130,7 +139,10 @@ const ingredients = computed(() => {
           </v-col>
         </v-row>
       </v-col>
-    </v-row>    
+    </v-row>
+    <v-dialog v-model="isInfoDialogOpen" fullscreen>
+      <TagsInfoDialog @closeDialog="isInfoDialogOpen = false" />
+    </v-dialog>
   </v-container>
 </template>
 

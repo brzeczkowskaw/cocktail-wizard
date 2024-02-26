@@ -32,6 +32,7 @@ export interface CocktailsState {
   randomCocktails: Cocktail[];
   isLoadingCocktails: boolean;
   cocktail: Cocktail | null;
+  tagsInfo: TagsInfo;
 }
 
 export interface Cocktail {
@@ -80,4 +81,11 @@ export interface Cocktail {
   strMeasure15?: string | null;
   strTags?: string | null;
   strVideo?: string | null;
+}
+
+export interface TagsInfo {
+  categories: any;
+  glasses: any;
+  ingredients: any;
+  alcoholicFilters: any;
 }
