@@ -70,7 +70,7 @@ async function logout() {
         color="primary"
       >
         <v-app-bar-nav-icon v-if="isUserLoggedIn" @click="isSidebarOpen = !isSidebarOpen"/>
-        <h3 :class="isUserLoggedIn ? '' : 'ml-6'">Custom cocktail wizard</h3>
+        <h3 :class="isUserLoggedIn ? '' : 'ml-6'">Cocktail wizard</h3>
         <v-spacer />
         <div v-if="isUserLoggedIn">
           Hello <b>{{ authorisationStore.user.displayName || authorisationStore.user.email }}</b>!
