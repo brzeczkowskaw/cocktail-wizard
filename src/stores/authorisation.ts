@@ -27,10 +27,9 @@ export const useAuthorisationStore = defineStore("authorisationStore", {
           });
         const collectionRef = collection(firestoreDB, "users");
         await setDoc(doc(collectionRef, this.user.uid), {
-          favourites: null,
-          alcoholes: null,
+          favourites: [],
+          alcoholes: [],
         });
-        await useBarStore().getUserCollection(this.user.uid);
         this.loginMessageError = null;
       } catch (error: any) {
         switch (error.code) {
@@ -60,7 +59,6 @@ export const useAuthorisationStore = defineStore("authorisationStore", {
           .signInWithEmailAndPassword(email, password);
         this.user = data.user;
         this.loginMessageError = null;
-        await useBarStore().getUserCollection(this.user.uid);
       } catch (error: any) {
         switch (error.code) {
           case "auth/invalid-email":
@@ -80,7 +78,7 @@ export const useAuthorisationStore = defineStore("authorisationStore", {
     },
     async logout() {
       try {
-        useBarStore().unsubscribeMethod();
+        useBarStore().unsubscribeMethod;
         firebase.auth().signOut();
         this.user = null;
         this.loginMessageError = null;
@@ -92,6 +90,7 @@ export const useAuthorisationStore = defineStore("authorisationStore", {
       firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
           await this.checkAndRefreshToken(user);
+          await useBarStore().getUserCollection(user.uid);
           this.user = user;
           return true;
         } else {

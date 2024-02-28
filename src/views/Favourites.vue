@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import { useCocktailsStore } from '../stores/cocktails'
-import CocktailSmallCard from '../components/CocktailSmallCard.vue'
 import { useBarStore } from '../stores/bar'
+import CocktailSmallCard from '../components/CocktailSmallCard.vue'
 
-const cocktailsStore = useCocktailsStore();
 const barStore = useBarStore();
+const cocktailsStore = useCocktailsStore()
 
-cocktailsStore.getRandomCocktails();
 cocktailsStore.getTagsInfo();
 
 </script>
 
 <template>
   <v-container class="text-center">
-    <h2>What's your taste today?</h2>
-    <div v-if="cocktailsStore.isLoadingCocktails" class="cocktail-list">
-      <div v-for="indexR in 12" :key="indexR">
+    <h2>Your favourites</h2>
+    <div v-if="!barStore.favourites" class="cocktail-list">
+      <div v-for="indexR in 3" :key="indexR">
         <v-skeleton-loader
           class="mx-auto border ma-3"
           width="300"
@@ -27,7 +26,7 @@ cocktailsStore.getTagsInfo();
       </div>
     </div>
     <div v-else class="cocktail-list">
-      <div v-for="(cocktail, index) in cocktailsStore.randomCocktails" :key="index">
+      <div v-for="(cocktail, index) in barStore.favourites" :key="index">
         <CocktailSmallCard :cocktail="cocktail" />
       </div>
     </div>
