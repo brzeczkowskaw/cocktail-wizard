@@ -36,5 +36,11 @@ export const useBarStore = defineStore("barStore", {
         alcoholes: this.alcoholes,
       });
     },
+    async editAlcoholsList(userId: string) {
+      await updateDoc(doc(firestoreDB, `users/${userId}/`), {
+        favourites: this.favourites,
+        alcoholes: this.alcoholes,
+      });
+    },
   },
 });

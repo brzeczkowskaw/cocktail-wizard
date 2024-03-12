@@ -81,54 +81,54 @@ function clearCategories() {
     </div>
     <div v-if="!cocktailsStore.isLoadingCocktails">
       <v-row class="ma-4">
-        <v-select
-          v-model="filterCategory"
-          :items="filterItems"
-          class="mr-0 select-row filter-items"
-          density="compact"
-          @change="clearCategories"
-        />
-        <v-text-field 
-          v-if="filterCategory==='cocktail name'"
-          v-model="name"
-          class="mx-0"
-          density="compact"
-        />
-        <v-select 
-          v-else-if="filterCategory==='ingredient'"
-          v-model="ingredient"
-          :items="cocktailsStore.tagsInfo.ingredients"
-          density="compact"
-          class="mx-0"
-        />
-        <v-select 
-          v-else-if="filterCategory==='alcohol content'"
-          v-model="alcoholic"
-          :items="cocktailsStore.tagsInfo.alcoholicFilters"
-          density="compact"
-          class="mx-0"
-        />
-        <v-select 
-          v-else-if="filterCategory==='category'"
-          v-model="category"
-          :items="cocktailsStore.tagsInfo.categories"
-          density="compact"
-          class="mx-0"
-        />
-        <v-select 
-          v-else-if="filterCategory==='glass'"
-          v-model="glass"
-          :items="cocktailsStore.tagsInfo.glasses"
-          density="compact"
-          class="mx-0"
-        />
-        <v-btn
-          height="auto"
-          variant="plain"
-          @click="search"
-        >
-          search
-        </v-btn>
+          <v-select
+            v-model="filterCategory"
+            :items="filterItems"
+            class="mr-0 select-row filter-items"
+            density="compact"
+            @change="clearCategories"
+          />
+          <v-text-field 
+            v-if="filterCategory==='cocktail name'"
+            v-model="name"
+            class="mx-0"
+            density="compact"
+          />
+          <v-autocomplete 
+            v-else-if="filterCategory==='ingredient'"
+            v-model="ingredient"
+            :items="cocktailsStore.tagsInfo.ingredients"
+            density="compact"
+            class="mx-0"
+          />
+          <v-select 
+            v-else-if="filterCategory==='alcohol content'"
+            v-model="alcoholic"
+            :items="cocktailsStore.tagsInfo.alcoholicFilters"
+            density="compact"
+            class="mx-0"
+          />
+          <v-select 
+            v-else-if="filterCategory==='category'"
+            v-model="category"
+            :items="cocktailsStore.tagsInfo.categories"
+            density="compact"
+            class="mx-0"
+          />
+          <v-select 
+            v-else-if="filterCategory==='glass'"
+            v-model="glass"
+            :items="cocktailsStore.tagsInfo.glasses"
+            density="compact"
+            class="mx-0"
+          />
+          <v-btn
+            height="auto"
+            variant="plain"
+            @click="search"
+          >
+            search
+          </v-btn>
       </v-row>
     </div>
     <div>

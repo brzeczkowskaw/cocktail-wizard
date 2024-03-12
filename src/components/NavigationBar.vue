@@ -26,6 +26,13 @@ const menuItems = [
       prependIcon: 'mdi-cards-heart'
     }
   },
+  {
+    title: 'My ingredients',
+    props: {
+      to: '/my-ingredients',
+      prependIcon: 'mdi-bottle-tonic'
+    }
+  },
 ]
 
 const topMenuItems = computed(() => {

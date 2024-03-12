@@ -8,10 +8,10 @@ export const useCocktailsStore = defineStore("cocktailsStore", {
     isLoadingCocktails: false,
     cocktail: null,
     tagsInfo: {
-      categories: null,
-      glasses: null,
-      ingredients: null,
-      alcoholicFilters: null,
+      categories: [],
+      glasses: [],
+      ingredients: [],
+      alcoholicFilters: [],
     },
   }),
   actions: {
@@ -45,12 +45,15 @@ export const useCocktailsStore = defineStore("cocktailsStore", {
           (drink: Record<string, any>) => {
             return drink;
           }
-        );
+        )
         this.isLoadingCocktails = false;
       } catch (error: any) {
         alert(error.message);
         this.isLoadingCocktails = false;
       }
+    },
+    async filterFromMyIngredients() {
+      
     },
     async getCocktailById(id: string) {
       this.isLoadingCocktails = true;

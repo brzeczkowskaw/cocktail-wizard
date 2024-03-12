@@ -12,7 +12,7 @@ cocktailsStore.getTagsInfo();
 
 <template>
   <v-container class="text-center">
-    <h2>Your favourites</h2>
+    <h2>My favourites</h2>
     <div v-if="!barStore.favourites" class="cocktail-list">
       <div v-for="indexR in 3" :key="indexR">
         <v-skeleton-loader

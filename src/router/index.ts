@@ -21,6 +21,11 @@ const router = createRouter({
       component: () => import("../views/Favourites.vue"),
     },
     {
+      path: "/my-ingredients",
+      meta: { layout: MainLayout, title: "My ingredients" },
+      component: () => import("../views/MyIngredients.vue"),
+    },
+    {
       path: "/cocktail/:id",
       meta: { layout: MainLayout, title: "Cocktail" },
       component: () => import("../views/Cocktail.vue"),

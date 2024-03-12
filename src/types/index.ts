@@ -91,7 +91,7 @@ export interface TagsInfo {
 }
 
 export interface BarState {
-  favourites: Cocktail[] | null;
-  alcoholes: string[] | null;
+  favourites: Cocktail[];
+  alcoholes: string[];
   unsubscribeMethod: Unsubscribe | null;
 }
