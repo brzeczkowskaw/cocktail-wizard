@@ -1,4 +1,4 @@
-import { UserMetadata } from "firebase/auth";
+import { Unsubscribe, UserMetadata } from "firebase/auth";
 
 export interface AuthorisationState {
   user: User | null;
@@ -88,4 +88,10 @@ export interface TagsInfo {
   glasses: any;
   ingredients: any;
   alcoholicFilters: any;
+}
+
+export interface BarState {
+  favourites: Cocktail[] | null;
+  alcoholes: string[] | null;
+  unsubscribeMethod: Unsubscribe | null;
 }

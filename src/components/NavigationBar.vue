@@ -19,6 +19,13 @@ const menuItems = [
       prependIcon: 'mdi-home'
     }
   },
+  {
+    title: 'Favourites',
+    props: {
+      to: '/favourites',
+      prependIcon: 'mdi-cards-heart'
+    }
+  },
 ]
 
 const topMenuItems = computed(() => {

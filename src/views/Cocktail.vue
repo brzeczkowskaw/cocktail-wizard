@@ -4,6 +4,8 @@ import { useCocktailsStore } from '../stores/cocktails'
 import { useRouter, useRoute } from 'vue-router'
 import { Cocktail } from '../types'
 import TagsInfoDialog from '../components/TagsInfoDialog.vue'
+import FavouritesHeart from '../components/FavouritesHeart.vue'
+
 
 const cocktailsStore = useCocktailsStore();
 const router = useRouter(); 
@@ -30,10 +32,6 @@ async function getCockail(id: string) {
   }
 }
 
-function goBack() {
-  router.push("/");
-}
-
 const ingredients = computed(() => {
   let ingredientList = [];
   for (let i = 1; i <= 15; i++) {
@@ -53,15 +51,6 @@ const ingredients = computed(() => {
 
 <template>
   <v-container class="cocktail-container">
-    <v-row v-if="storeHasRandomCocktails" justify="end">
-      <v-btn
-        variant="plain"
-        @click="goBack"
-      >
-        <v-icon size="small" class="mr-2">mdi-keyboard-backspace</v-icon>
-        back
-      </v-btn>
-    </v-row>
     <v-row v-if="cocktail">
       <v-col cols="12" sm="6">
         <v-img 
@@ -76,6 +65,7 @@ const ingredients = computed(() => {
       <v-col>
         <v-row class="mt-1">
           <h2>{{ cocktail.strDrink }}</h2>
+          <FavouritesHeart :cocktail="cocktail" class="ml-3" />
         </v-row>
         <v-row class="mt-4">
           Ingredients

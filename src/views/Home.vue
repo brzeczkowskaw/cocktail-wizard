@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useCocktailsStore } from '../stores/cocktails'
+import { useBarStore } from '../stores/bar'
 import CocktailSmallCard from '../components/CocktailSmallCard.vue'
 import "@lottiefiles/lottie-player"
 import cocktailAnimation from "../assets/cocktail-animation.json"
@@ -21,6 +22,7 @@ const filterItems = [
 ]
 
 const cocktailsStore = useCocktailsStore();
+const barStore = useBarStore();
 
 cocktailsStore.getRandomCocktails();
 cocktailsStore.getTagsInfo();

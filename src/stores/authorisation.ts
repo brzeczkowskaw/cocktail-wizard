@@ -1,9 +1,11 @@
 import { defineStore } from "pinia";
 import { AuthorisationState } from "../types";
 import firebase from "firebase/compat/app";
-import { updateProfile } from "firebase/auth";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import firestoreDB from "../main.ts";
+import { collection, setDoc, doc } from "firebase/firestore";
+import { useBarStore } from "./bar.ts";
 
 export const useAuthorisationStore = defineStore("authorisationStore", {
   state: (): AuthorisationState => ({
@@ -13,12 +15,21 @@ export const useAuthorisationStore = defineStore("authorisationStore", {
   actions: {
     async register(email: string, password: string, name: string) {
       try {
-        const data = await firebase
+        await firebase
           .auth()
-          .createUserWithEmailAndPassword(email, password);
-        this.user = data.user;
-        const newUser = await updateProfile(this.user, { displayName: name });
-        this.user = newUser;
+          .createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            const user = firebase.auth().currentUser;
+            user?.updateProfile({
+              displayName: name,
+            });
+            this.user = user;
+          });
+        const collectionRef = collection(firestoreDB, "users");
+        await setDoc(doc(collectionRef, this.user.uid), {
+          favourites: [],
+          alcoholes: [],
+        });
         this.loginMessageError = null;
       } catch (error: any) {
         switch (error.code) {
@@ -67,6 +78,7 @@ export const useAuthorisationStore = defineStore("authorisationStore", {
     },
     async logout() {
       try {
+        useBarStore().unsubscribeMethod;
         firebase.auth().signOut();
         this.user = null;
         this.loginMessageError = null;
@@ -75,9 +87,10 @@ export const useAuthorisationStore = defineStore("authorisationStore", {
       }
     },
     async onStatusChange(): Promise<boolean | void> {
-      firebase.auth().onAuthStateChanged(async user => {
+      firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
           await this.checkAndRefreshToken(user);
+          await useBarStore().getUserCollection(user.uid);
           this.user = user;
           return true;
         } else {
@@ -87,18 +100,18 @@ export const useAuthorisationStore = defineStore("authorisationStore", {
       });
     },
     async checkAndRefreshToken(user: firebase.User) {
-        try {
-          const idTokenResult = await user.getIdTokenResult();
+      try {
+        const idTokenResult = await user.getIdTokenResult();
 
-          const tokenExpirationTime = parseInt(idTokenResult.expirationTime);
-          const currentTime = Math.floor(Date.now() / 1000);
+        const tokenExpirationTime = parseInt(idTokenResult.expirationTime);
+        const currentTime = Math.floor(Date.now() / 1000);
 
-          if (tokenExpirationTime - currentTime < 300) {
-            await user.getIdToken(true);
-          }
-        } catch (error) {
-          console.error('Error checking or refreshing token:', error);
+        if (tokenExpirationTime - currentTime < 300) {
+          await user.getIdToken(true);
         }
+      } catch (error) {
+        console.error("Error checking or refreshing token:", error);
       }
+    },
   },
 });
