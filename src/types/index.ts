@@ -29,7 +29,7 @@ export interface User {
 }
 
 export interface CocktailsState {
-  randomCocktails: Cocktail[];
+  cocktails: Cocktail[];
   isLoadingCocktails: boolean;
   cocktail: Cocktail | null;
   tagsInfo: TagsInfo;

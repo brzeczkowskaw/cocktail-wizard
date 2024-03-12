@@ -14,14 +14,14 @@ const cocktail = ref<Cocktail | null>();
 const isInfoDialogOpen = ref(false);
 
 const storeHasRandomCocktails = computed(() => {
-  return cocktailsStore.randomCocktails.length > 0;
+  return cocktailsStore.cocktails.length > 0;
 });
 
 getCockail(cocktailId);
 
 async function getCockail(id: string) {
   if (storeHasRandomCocktails.value) {
-    cocktail.value = cocktailsStore.randomCocktails.find((cocktail) => {
+    cocktail.value = cocktailsStore.cocktails.find((cocktail) => {
       return cocktail.idDrink == cocktailId;
     });
   } else {
