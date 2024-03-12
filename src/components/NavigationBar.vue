@@ -53,7 +53,7 @@ function menuActionClick(action: string) {
 async function logout() {
   try {
     await authorisationStore.logout();
-    router.push("/sign-in");
+    router.push("/");
   } catch(error) {
     alert(error.message)
   }
