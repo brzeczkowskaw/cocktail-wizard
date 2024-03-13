@@ -40,21 +40,19 @@ export const useCocktailsStore = defineStore("cocktailsStore", {
         const { data } = await axios.get(
           `https://thecocktaildb.com/api/json/v1/1/${filterLine}`
         );
-        console.log(typeof data.drinks);
-        this.cocktails = data.drinks === null ? [] : data.drinks.map(
-          (drink: Record<string, any>) => {
-            return drink;
-          }
-        )
+        this.cocktails =
+          data.drinks === null
+            ? []
+            : data.drinks.map((drink: Record<string, any>) => {
+                return drink;
+              });
         this.isLoadingCocktails = false;
       } catch (error: any) {
         alert(error.message);
         this.isLoadingCocktails = false;
       }
     },
-    async filterFromMyIngredients() {
-      
-    },
+    async filterFromMyIngredients() {},
     async getCocktailById(id: string) {
       this.isLoadingCocktails = true;
       try {

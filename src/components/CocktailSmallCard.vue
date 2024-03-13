@@ -32,16 +32,16 @@ function goToRecipe() {
 <template>
   <v-card 
     class="cocktail-card ma-3 rounded-xl text-white" 
-    max-width="300" 
-    max-height="400"
+    max-width="260" 
+    max-height="360"
     elevation="12"
     align="center"
   >
     <v-img 
       :src="props.cocktail.strDrinkThumb"
       :alt="props.cocktail.strImageAttribution" 
-      width="280"
-      height="280"
+      width="240"
+      height="240"
       cover
       class="my-2 rounded-xl"
     />
