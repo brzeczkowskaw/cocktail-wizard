@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useCocktailsStore } from '../stores/cocktails'
+import { computed } from 'vue'
 import { Cocktail } from '../types'
 import { useRouter } from "vue-router";
 import FavouritesHeart from './FavouritesHeart.vue'
 import firebase from "firebase/compat/app"
 
 const router = useRouter();
-const cocktailsStore = useCocktailsStore();
 const user = computed(() => {
   return firebase.auth().currentUser;
 })
@@ -22,6 +20,14 @@ const props = defineProps({
 function goToRecipe() {
   router.push(`/cocktail/${props.cocktail.idDrink}`)
 }
+
+const imageSrc = computed((): string => {
+  return props.cocktail?.strDrinkThumb || '';
+})
+
+const imageAlt = computed((): string => {
+  return props.cocktail?.strImageAttribution || '';
+})
 </script>
 
 <template>
@@ -33,8 +39,8 @@ function goToRecipe() {
     align="center"
   >
     <v-img 
-      :src="props.cocktail.strDrinkThumb"
-      :alt="props.cocktail.strImageAttribution" 
+      :src="imageSrc"
+      :alt="imageAlt" 
       width="240"
       height="240"
       cover

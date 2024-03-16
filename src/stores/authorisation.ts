@@ -26,7 +26,8 @@ export const useAuthorisationStore = defineStore("authorisationStore", {
             this.user = user;
           });
         const collectionRef = collection(firestoreDB, "users");
-        await setDoc(doc(collectionRef, this.user.uid), {
+        const userUid = this.user?.uid || '';
+        await setDoc(doc(collectionRef, userUid), {
           favourites: [],
           alcoholes: [],
         });

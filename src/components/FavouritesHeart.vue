@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useCocktailsStore } from '../stores/cocktails'
+import { computed } from 'vue'
 import { useBarStore } from '../stores/bar'
 import { Cocktail } from '../types'
 import firebase from "firebase/compat/app"
 
-const cocktailsStore = useCocktailsStore();
 const barStore = useBarStore();
 
-const user = computed(() => {
-  return firebase.auth().currentUser;
+const userUid = computed((): string => {
+  return firebase.auth().currentUser?.uid || '';
 })
 
 const props = defineProps({
@@ -27,9 +25,9 @@ const isCocktailFavourite = computed(() => {
 
 async function addToFavourites() {
   if (!isCocktailFavourite.value) {
-    await barStore.addCoktailToFavourites(props.cocktail, user.value.uid);
+    await barStore.addCoktailToFavourites(props.cocktail, userUid.value);
   } else {
-    barStore.removeCocktailFromFavourites(props.cocktail, user.value.uid);
+    barStore.removeCocktailFromFavourites(props.cocktail, userUid.value);
   }
 }
 

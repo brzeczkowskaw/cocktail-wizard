@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useAuthorisationStore } from '../stores/authorisation'
-import { onBeforeRouteUpdate, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 
 const authorisationStore = useAuthorisationStore();
 const router = useRouter();
@@ -10,7 +10,6 @@ const email = ref();
 const password = ref();
 const repeatPassword = ref();
 const name = ref();
-const isLogin = ref(true);
 const showPassword = ref(false);
 const tab = ref();
 
@@ -49,10 +48,6 @@ function manipulateShowingPassword() {
 }
 
 // validation
-function required(value: string): boolean | string {
-  if (value) return true;
-  else return 'This field is required'
-}
 function validateEmail(value: string): boolean | string {
   const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   if (!!value && emailRegex.test(value)) {
@@ -75,9 +70,6 @@ function validatePasswordConfirmation(): boolean | string {
   } else {
     return 'Password is not the same'
   }
-}
-function isRegistrationValid() {
-  return !validatePassword(password.value) && !validatePasswordConfirmation() && !validateEmail(email.value);
 }
 
 </script>

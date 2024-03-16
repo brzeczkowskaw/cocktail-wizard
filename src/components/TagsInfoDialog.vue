@@ -50,7 +50,7 @@ onMounted(async () => {
           :key="glass"
           label
           class="ma-1"
-          density="auto"
+          density="compact"
           color="secondary"
         >
           {{ glass }}
@@ -68,7 +68,7 @@ onMounted(async () => {
           :key="category"
           label
           class="ma-1"
-          density="auto"
+          density="compact"
           color="secondary"
         >
           {{ category }}
@@ -86,7 +86,7 @@ onMounted(async () => {
           :key="filter"
           label
           class="ma-1"
-          density="auto"
+          density="compact"
           color="secondary"
         >
           {{ filter }}
@@ -105,7 +105,7 @@ onMounted(async () => {
           :key="category"
           label
           class="ma-1"
-          density="auto"
+          density="compact"
           color="secondary"
         >
           {{ category }}

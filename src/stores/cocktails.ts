@@ -25,7 +25,7 @@ export const useCocktailsStore = defineStore("cocktailsStore", {
           );
           const cocktail = Object.fromEntries(
             Object.entries(data.drinks[0]).filter(([_, v]) => v != null)
-          );
+          ) as unknown as Cocktail;
           this.cocktails.push(cocktail);
           this.isLoadingCocktails = false;
         }
@@ -61,7 +61,7 @@ export const useCocktailsStore = defineStore("cocktailsStore", {
         );
         const cocktail = Object.fromEntries(
           Object.entries(data.drinks[0]).filter(([_, v]) => v != null)
-        );
+        ) as unknown as Cocktail;
         this.cocktail = cocktail;
         this.isLoadingCocktails = false;
       } catch (error: any) {

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useCocktailsStore } from '../stores/cocktails'
-import { useBarStore } from '../stores/bar'
 import CocktailSmallCard from '../components/CocktailSmallCard.vue'
 import "@lottiefiles/lottie-player"
 import cocktailAnimation from "../assets/cocktail-animation.json"
@@ -22,7 +21,6 @@ const filterItems = [
 ]
 
 const cocktailsStore = useCocktailsStore();
-const barStore = useBarStore();
 
 cocktailsStore.getRandomCocktails();
 cocktailsStore.getTagsInfo();
@@ -41,7 +39,7 @@ async function search() {
     filterLine = `filter.php?g=${glass.value.replaceAll(' ', '_')}`;
   try {
     await cocktailsStore.filterForCocktails(filterLine);
-  } catch(error) {
+  } catch(error: any) {
     alert(error.message);
   }
 }
@@ -50,7 +48,7 @@ async function getLuckyShot() {
   cocktailsStore.cocktails = [];
   try {
     await cocktailsStore.getRandomCocktails();
-  } catch(error) {
+  } catch(error: any) {
     alert(error.message);
   }
 }
@@ -147,7 +145,7 @@ function clearCategories() {
     </div>
     <div>
       <div v-if="cocktailsStore.isLoadingCocktails" class="cocktail-list">
-        <div v-for="indexR in cocktailsStore.isLoadingCocktails.length" :key="indexR">
+        <div v-for="indexR in 3" :key="indexR">
           <v-skeleton-loader
             class="mx-auto border ma-3"
             width="300"

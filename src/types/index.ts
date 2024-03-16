@@ -1,7 +1,8 @@
 import { Unsubscribe, UserMetadata } from "firebase/auth";
+import firebase from "firebase/compat/app";
 
 export interface AuthorisationState {
-  user: User | null;
+  user: firebase.User | null;
   loginMessageError: string | null;
 }
 
@@ -36,12 +37,12 @@ export interface CocktailsState {
 }
 
 export interface Cocktail {
-  dateModified?: string;
+  dateModified?: string | null;
   idDrink: string;
-  strAlcoholic?: string;
-  strCategory?: string;
-  strCreativeCommonsConfirmed?: string;
-  strDrink?: string;
+  strAlcoholic?: string | null;
+  strCategory?: string | null;
+  strCreativeCommonsConfirmed?: string | null;
+  strDrink?: string | null;
   strDrinkAlternate?: string | null;
   strDrinkThumb?: string | null;
   strGlass?: string;

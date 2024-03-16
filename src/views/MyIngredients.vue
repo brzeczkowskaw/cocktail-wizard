@@ -10,8 +10,8 @@ import cocktailAnimation from "../assets/cocktail-animation.json"
 const barStore = useBarStore();
 const cocktailsStore = useCocktailsStore();
 
-const user = computed(() => {
-  return firebase.auth().currentUser;
+const userUid = computed(() => {
+  return firebase.auth().currentUser?.uid || '';
 })
 
 const showCocktails = ref(false);
@@ -23,8 +23,8 @@ if (cocktailsStore.tagsInfo.ingredients.length === 0) {
 
 async function addAlcoholToList() {
   try {
-    await barStore.editAlcoholsList(user.value.uid)
-  } catch(error) {
+    await barStore.editAlcoholsList(userUid?.value)
+  } catch(error: any) {
     alert(error.message);
   }
 }
@@ -33,8 +33,8 @@ async function removeAlcoholFromList(item: string) {
   const indexToRemove = barStore.alcoholes.indexOf(item);
   barStore.alcoholes.splice(indexToRemove, 1);
   try {
-    await barStore.editAlcoholsList(user.value.uid)
-  } catch(error) {
+    await barStore.editAlcoholsList(userUid?.value)
+  } catch(error: any) {
     alert(error.message);
   }
 }
@@ -45,7 +45,7 @@ async function findCocktails(item: string) {
     await cocktailsStore.filterForCocktails(filterLine);
     chosenAlcohol.value = item;
     showCocktails.value = true;
-  } catch(error) {
+  } catch(error: any) {
     alert(error.message);
   }
 }
@@ -91,7 +91,7 @@ async function findCocktails(item: string) {
     <div v-if="showCocktails" class="mt-4">
       <h3 class="mt-4">Cocktails with {{ chosenAlcohol }}</h3>
       <div v-if="cocktailsStore.isLoadingCocktails" class="cocktail-list">
-        <div v-for="indexR in cocktailsStore.isLoadingCocktails.length" :key="indexR">
+        <div v-for="indexR in 3" :key="indexR">
           <v-skeleton-loader
             class="mx-auto border ma-3"
             width="300"

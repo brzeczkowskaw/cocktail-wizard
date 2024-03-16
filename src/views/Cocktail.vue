@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import { useCocktailsStore } from '../stores/cocktails'
 import { useBarStore } from '../stores/bar'
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { Cocktail } from '../types'
 import TagsInfoDialog from '../components/TagsInfoDialog.vue'
 import FavouritesHeart from '../components/FavouritesHeart.vue'
@@ -14,20 +14,19 @@ const user = computed(() => {
 
 const cocktailsStore = useCocktailsStore();
 const barStore = useBarStore();
-const router = useRouter(); 
 const route = useRoute(); 
 
 const cocktailId = route.params.id as string;
-const cocktail = ref<Cocktail | null>();
+const cocktail = ref<Cocktail | any>();
 const isInfoDialogOpen = ref(false);
 
-getCockail(cocktailId);
+getCockail();
 
-async function getCockail(id: string) {
+async function getCockail() {
   try {
     await cocktailsStore.getCocktailById(cocktailId);
     cocktail.value = cocktailsStore.cocktail;
-  } catch(error) {
+  } catch(error: any) {
     alert(error.message);
   }
 }
@@ -37,10 +36,10 @@ const ingredients = computed(() => {
   for (let i = 1; i <= 15; i++) {
     const ingredientKey = `strIngredient${i}`;
     const measureKey = `strMeasure${i}`;
-    if (cocktail.value[ingredientKey] && cocktail.value[measureKey]) {
+    if (cocktail!.value[ingredientKey] && cocktail!.value[measureKey]) {
       const ingredientObject = {
-        ingredient: cocktail.value[ingredientKey],
-        measure: cocktail.value[measureKey],
+        ingredient: cocktail!.value[ingredientKey],
+        measure: cocktail!.value[measureKey],
       }
       ingredientList.push(ingredientObject);
     }
@@ -48,9 +47,16 @@ const ingredients = computed(() => {
   return ingredientList;
 })
 
-function isIngredientInMyBar(ingredient): boolean {
+function isIngredientInMyBar(ingredient: {ingredient: string, measure: string}): boolean {
   return barStore.alcoholes.includes(ingredient.ingredient);
 }
+
+const imageSrc = computed(() => {
+  return {
+    src: cocktail!.value.strDrinkThumb || '',
+    alt: cocktail!.value.strImageAttribution || '',
+  }
+})
 </script>
 
 <template>
@@ -58,8 +64,8 @@ function isIngredientInMyBar(ingredient): boolean {
     <v-row v-if="cocktail">
       <v-col cols="12" sm="6">
         <v-img 
-          :src="cocktail.strDrinkThumb"
-          :alt="cocktail.strImageAttribution" 
+          :src="imageSrc.src"
+          :alt="imageSrc.alt" 
           width="300"
           height="300"
           cover
