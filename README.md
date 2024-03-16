@@ -13,7 +13,7 @@
 ## General info
 cocktail-wizard is an app where you can find cocktail recepies.
 You can see code of app [here](https://github.com/brzeczkowskaw/cocktail-wizard).
-Demo of app is [here](https://which-pizza-app.netlify.app/)
+Demo of app is [here](https://cocktail-wizard-app.netlify.app/)
 
 ## Features
 cocktail-wizard app allows you to find cocktail recepies. 
