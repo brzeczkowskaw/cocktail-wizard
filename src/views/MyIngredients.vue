@@ -69,7 +69,7 @@ async function findCocktails(item: string) {
     <v-row>
       <v-card width="100%" class="list-card mb-5">
         <div v-for="item in barStore.alcoholes" :key="item">
-          <v-card width="100%" class="alcohol-card">
+          <v-card width="100%" height="100%" class="alcohol-card">
             <v-row class="ma-0">
               <v-col class="find-cocktails" @click="findCocktails(item)">
                 <v-icon size="x-small">mdi-glass-cocktail</v-icon>
@@ -140,12 +140,11 @@ async function findCocktails(item: string) {
 .alcohol-card {
   margin: 10px;
   border-radius: 8px;
-  height: 4rem;
   margin-right: 10px;
 }
 @media(max-width: 700px) {
   .alcohol-card {
-    max-height: 6rem;
+    max-height: 5rem;
   }
   .find-cocktails {
     border-radius: 0% 0% 50% 0%;
