@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useCocktailsStore } from '../stores/cocktails'
+import { useBarStore } from '../stores/bar'
 import { useRouter, useRoute } from 'vue-router'
 import { Cocktail } from '../types'
 import TagsInfoDialog from '../components/TagsInfoDialog.vue'
@@ -8,6 +9,7 @@ import FavouritesHeart from '../components/FavouritesHeart.vue'
 
 
 const cocktailsStore = useCocktailsStore();
+const barStore = useBarStore();
 const router = useRouter(); 
 const route = useRoute(); 
 
@@ -41,6 +43,10 @@ const ingredients = computed(() => {
   }
   return ingredientList;
 })
+
+function isIngredientInMyBar(ingredient): boolean {
+  return barStore.alcoholes.includes(ingredient.ingredient);
+}
 </script>
 
 <template>
@@ -66,7 +72,7 @@ const ingredients = computed(() => {
         </v-row>
         <v-row v-for="ingredient in ingredients" :key="ingredient.ingredient">
           <v-col cols="2" class="my-0 py-0">
-            <v-checkbox />
+            <v-checkbox :model-value="isIngredientInMyBar(ingredient)" />
           </v-col>
           <v-col cols="6">
             {{ ingredient.ingredient }}
