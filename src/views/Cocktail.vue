@@ -15,20 +15,14 @@ const cocktailId = route.params.id as string;
 const cocktail = ref<Cocktail | null>();
 const isInfoDialogOpen = ref(false);
 
-const storeHasRandomCocktails = computed(() => {
-  return cocktailsStore.cocktails.length > 0;
-});
-
 getCockail(cocktailId);
 
 async function getCockail(id: string) {
-  if (storeHasRandomCocktails.value) {
-    cocktail.value = cocktailsStore.cocktails.find((cocktail) => {
-      return cocktail.idDrink == cocktailId;
-    });
-  } else {
+  try {
     await cocktailsStore.getCocktailById(cocktailId);
     cocktail.value = cocktailsStore.cocktail;
+  } catch(error) {
+    alert(error.message);
   }
 }
 

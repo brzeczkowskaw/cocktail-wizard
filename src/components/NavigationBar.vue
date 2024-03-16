@@ -142,7 +142,7 @@ async function logout() {
 }
 @media(max-width: 400px) {
   .nav-bar {
-    width: 120vw;
+    width: 100%;
   }
 }
 </style>
