@@ -46,5 +46,10 @@ export const useBarStore = defineStore("barStore", {
         alcoholes: this.alcoholes,
       });
     },
+    clearStore() {
+      this.favourites = [];
+      this.alcoholes = [];
+      this.unsubscribeMethod = null;
+    }
   },
 });
