@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useCocktailsStore } from '../stores/cocktails'
+import { useBarStore } from '../stores/bar'
 import { useRouter, useRoute } from 'vue-router'
 import { Cocktail } from '../types'
 import TagsInfoDialog from '../components/TagsInfoDialog.vue'
+import FavouritesHeart from '../components/FavouritesHeart.vue'
+
 
 const cocktailsStore = useCocktailsStore();
+const barStore = useBarStore();
 const router = useRouter(); 
 const route = useRoute(); 
 
@@ -13,25 +17,15 @@ const cocktailId = route.params.id as string;
 const cocktail = ref<Cocktail | null>();
 const isInfoDialogOpen = ref(false);
 
-const storeHasRandomCocktails = computed(() => {
-  return cocktailsStore.cocktails.length > 0;
-});
-
 getCockail(cocktailId);
 
 async function getCockail(id: string) {
-  if (storeHasRandomCocktails.value) {
-    cocktail.value = cocktailsStore.cocktails.find((cocktail) => {
-      return cocktail.idDrink == cocktailId;
-    });
-  } else {
+  try {
     await cocktailsStore.getCocktailById(cocktailId);
     cocktail.value = cocktailsStore.cocktail;
+  } catch(error) {
+    alert(error.message);
   }
-}
-
-function goBack() {
-  router.push("/");
 }
 
 const ingredients = computed(() => {
@@ -49,19 +43,14 @@ const ingredients = computed(() => {
   }
   return ingredientList;
 })
+
+function isIngredientInMyBar(ingredient): boolean {
+  return barStore.alcoholes.includes(ingredient.ingredient);
+}
 </script>
 
 <template>
   <v-container class="cocktail-container">
-    <v-row v-if="storeHasRandomCocktails" justify="end">
-      <v-btn
-        variant="plain"
-        @click="goBack"
-      >
-        <v-icon size="small" class="mr-2">mdi-keyboard-backspace</v-icon>
-        back
-      </v-btn>
-    </v-row>
     <v-row v-if="cocktail">
       <v-col cols="12" sm="6">
         <v-img 
@@ -76,13 +65,14 @@ const ingredients = computed(() => {
       <v-col>
         <v-row class="mt-1">
           <h2>{{ cocktail.strDrink }}</h2>
+          <FavouritesHeart :cocktail="cocktail" class="ml-3" />
         </v-row>
         <v-row class="mt-4">
           Ingredients
         </v-row>
         <v-row v-for="ingredient in ingredients" :key="ingredient.ingredient">
           <v-col cols="2" class="my-0 py-0">
-            <v-checkbox />
+            <v-checkbox :model-value="isIngredientInMyBar(ingredient)" />
           </v-col>
           <v-col cols="6">
             {{ ingredient.ingredient }}

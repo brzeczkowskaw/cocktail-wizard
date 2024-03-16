@@ -31,7 +31,7 @@ const layoutComponent = computed(() => {
   height: 100%;
   background-position: center;
   background-size: cover;
-  background: linear-gradient(rgba(215, 67, 67, 0.288), rgba(73, 26, 26, 0.5)), url('./assets/background-cocktail.jpg');
+  background: linear-gradient(rgba(131, 122, 122, 0.34), rgba(110, 73, 73, 0.477)), url('./assets/background-cocktail.jpg');
 }
 #app {
   width: 100vw;

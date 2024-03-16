@@ -19,6 +19,20 @@ const menuItems = [
       prependIcon: 'mdi-home'
     }
   },
+  {
+    title: 'Favourites',
+    props: {
+      to: '/favourites',
+      prependIcon: 'mdi-cards-heart'
+    }
+  },
+  {
+    title: 'My ingredients',
+    props: {
+      to: '/my-ingredients',
+      prependIcon: 'mdi-bottle-tonic'
+    }
+  },
 ]
 
 const topMenuItems = computed(() => {
@@ -128,7 +142,7 @@ async function logout() {
 }
 @media(max-width: 400px) {
   .nav-bar {
-    width: 120vw;
+    width: 100%;
   }
 }
 </style>
