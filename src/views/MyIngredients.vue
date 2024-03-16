@@ -73,15 +73,15 @@ async function findCocktails(item: string) {
             <v-row class="ma-0">
               <v-col class="find-cocktails" @click="findCocktails(item)">
                 <v-icon size="x-small">mdi-glass-cocktail</v-icon>
-                <h5>Available cocktails</h5>
+                <h5>Cocktails</h5>
               </v-col>
-              <v-col cols="6" class="alcohol-name">
+              <v-col cols="4" md="6" class="alcohol-name">
                 <v-icon size="x-small">mdi-star</v-icon>
                 <h4>{{ item }}</h4>
               </v-col>
               <v-col class="delete-alcohol" @click="removeAlcoholFromList(item)">
                 <v-icon size="x-small">mdi-bottle-wine-outline</v-icon>
-                <h5>Bottle is empty :( </h5>
+                <h5>Empty bottle :( </h5>
               </v-col>
             </v-row>
           </v-card>
@@ -142,6 +142,19 @@ async function findCocktails(item: string) {
   border-radius: 8px;
   height: 4rem;
   margin-right: 10px;
+}
+@media(max-width: 700px) {
+  .alcohol-card {
+    max-height: 6rem;
+  }
+  .find-cocktails {
+    border-radius: 0% 0% 50% 0%;
+    cursor: pointer;
+  }
+  .delete-alcohol {
+    border-radius: 50% 0% 0% 0%;
+    cursor: pointer;
+  }
 }
 :deep(.v-data-table) {
   background-color: rgba(248, 178, 178, 0.484);

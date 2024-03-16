@@ -42,6 +42,11 @@ const topMenuItems = computed(() => {
         icon: 'mdi-logout',
         title: 'Log out',
         action: 'logout'
+      },
+      {
+        icon: 'mdi-home',
+        title: 'Home',
+        action: 'goToHomePage'
       }
     ]
   } else {
@@ -50,6 +55,11 @@ const topMenuItems = computed(() => {
         icon: 'mdi-login',
         title: 'Log in',
         action: 'login'
+      },
+      {
+        icon: 'mdi-home',
+        title: 'Home',
+        action: 'goToHomePage'
       }
     ]
   }
@@ -72,6 +82,10 @@ async function logout() {
     alert(error.message)
   }
 }
+
+function goToHomePage() {
+  router.push("/");
+}
 </script>
 
 <template>
@@ -84,7 +98,7 @@ async function logout() {
         color="primary"
       >
         <v-app-bar-nav-icon v-if="isUserLoggedIn" @click="isSidebarOpen = !isSidebarOpen"/>
-        <h3 :class="isUserLoggedIn ? '' : 'ml-6'">Cocktail wizard</h3>
+        <h3 :class="isUserLoggedIn ? 'app-name' : 'ml-6'">Cocktail wizard</h3>
         <v-spacer />
         <div v-if="isUserLoggedIn">
           Hello <b>{{ authorisationStore.user.displayName || authorisationStore.user.email }}</b>!
@@ -116,9 +130,9 @@ async function logout() {
     </div>
     <v-navigation-drawer 
       v-model="isSidebarOpen" 
-      :permanent="isSidebarOpen" 
       floating
       color="secondary"
+      width="100%"
       class="nav-bar"
     >
       <v-list 
@@ -137,12 +151,12 @@ async function logout() {
   font-size: 0.9rem;
   font-weight: bold;
 }
-.nav-bar {
-  width: 15vw;
-}
 @media(max-width: 400px) {
   .nav-bar {
     width: 100%;
+  }
+  .app-name {
+    display: none;
   }
 }
 </style>

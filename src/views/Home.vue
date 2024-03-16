@@ -62,6 +62,7 @@ function clearCategories() {
   category.value = null;
   glass.value = null;
 }
+
 </script>
 
 <template>
@@ -80,19 +81,23 @@ function clearCategories() {
       </v-row>
     </div>
     <div v-if="!cocktailsStore.isLoadingCocktails">
-      <v-row class="ma-4">
+      <v-row class="ma-4" justify="center">
+        <v-col cols="12" sm="4" class="mr-0 px-0">
           <v-select
             v-model="filterCategory"
             :items="filterItems"
-            class="mr-0 select-row filter-items"
+            class="mr-0"
             density="compact"
             @change="clearCategories"
           />
+        </v-col>
+        <v-col cols="12" sm="4" class="mx-0 px-0">
           <v-text-field 
             v-if="filterCategory==='cocktail name'"
             v-model="name"
             class="mx-0"
             density="compact"
+            @keyup.enter="search"
           />
           <v-autocomplete 
             v-else-if="filterCategory==='ingredient'"
@@ -100,6 +105,7 @@ function clearCategories() {
             :items="cocktailsStore.tagsInfo.ingredients"
             density="compact"
             class="mx-0"
+            @keyup.enter="search"
           />
           <v-select 
             v-else-if="filterCategory==='alcohol content'"
@@ -107,6 +113,7 @@ function clearCategories() {
             :items="cocktailsStore.tagsInfo.alcoholicFilters"
             density="compact"
             class="mx-0"
+            @keyup.enter="search"
           />
           <v-select 
             v-else-if="filterCategory==='category'"
@@ -114,6 +121,7 @@ function clearCategories() {
             :items="cocktailsStore.tagsInfo.categories"
             density="compact"
             class="mx-0"
+            @keyup.enter="search"
           />
           <v-select 
             v-else-if="filterCategory==='glass'"
@@ -121,14 +129,20 @@ function clearCategories() {
             :items="cocktailsStore.tagsInfo.glasses"
             density="compact"
             class="mx-0"
+            @keyup.enter="search"
           />
+        </v-col>
+        <v-col cols="12" sm="2">
           <v-btn
             height="auto"
             variant="plain"
+            class="pt-3"
             @click="search"
+            @keyup.enter="search"
           >
             search
           </v-btn>
+        </v-col>
       </v-row>
     </div>
     <div>
@@ -171,9 +185,6 @@ function clearCategories() {
   justify-items: center;
   align-items: center;
   flex-flow: wrap;
-}
-.select-row {
-  width: 2em;
 }
 :deep(.v-input__details) {
   display: none;

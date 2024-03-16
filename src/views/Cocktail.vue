@@ -6,7 +6,11 @@ import { useRouter, useRoute } from 'vue-router'
 import { Cocktail } from '../types'
 import TagsInfoDialog from '../components/TagsInfoDialog.vue'
 import FavouritesHeart from '../components/FavouritesHeart.vue'
+import firebase from "firebase/compat/app"
 
+const user = computed(() => {
+  return firebase.auth().currentUser;
+})
 
 const cocktailsStore = useCocktailsStore();
 const barStore = useBarStore();
@@ -65,7 +69,7 @@ function isIngredientInMyBar(ingredient): boolean {
       <v-col>
         <v-row class="mt-1">
           <h2>{{ cocktail.strDrink }}</h2>
-          <FavouritesHeart :cocktail="cocktail" class="ml-3" />
+          <FavouritesHeart v-if="user" :cocktail="cocktail" class="ml-3" />
         </v-row>
         <v-row class="mt-4">
           Ingredients
