@@ -104,6 +104,7 @@ function isRegistrationValid() {
             :type="showPassword ? '' : 'password'" 
             variant="solo" 
             class="input-area"
+            @keyup.enter="login"
           >
             <template v-slot:append-inner> 
               <v-icon 
@@ -163,6 +164,7 @@ function isRegistrationValid() {
             variant="solo" 
             class="input-area"
             :rules="[validatePasswordConfirmation]"
+            @keyup.enter="register"
           >
             <template v-slot:append-inner> 
               <v-icon
@@ -195,7 +197,7 @@ function isRegistrationValid() {
 .sign-in-card {
   width: 40vw;
 }
-@media(max-width: 400px) {
+@media(max-width: 700px) {
   .input-area {
     width: 60vw;
   }

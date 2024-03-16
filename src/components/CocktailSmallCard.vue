@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useAuthorisationStore } from '../stores/authorisation'
 import { useCocktailsStore } from '../stores/cocktails'
 import { Cocktail } from '../types'
 import { useRouter } from "vue-router";
@@ -9,12 +8,8 @@ import firebase from "firebase/compat/app"
 
 const router = useRouter();
 const cocktailsStore = useCocktailsStore();
-const authorisationStore = useAuthorisationStore();
 const user = computed(() => {
   return firebase.auth().currentUser;
-})
-const isUserLoggedIn = computed(() => {
-  return !!authorisationStore.user?.uid;
 })
 
 const props = defineProps({
@@ -33,7 +28,7 @@ function goToRecipe() {
   <v-card 
     class="cocktail-card ma-3 rounded-xl text-white" 
     max-width="260" 
-    max-height="360"
+    max-height="400"
     elevation="12"
     align="center"
   >
@@ -45,14 +40,14 @@ function goToRecipe() {
       cover
       class="my-2 rounded-xl"
     />
-    <v-card-title>
-      <h5>
+    <v-card-title max-width="240">
+      <h5 class="text-wrap">
         {{ props.cocktail.strDrink }}
       </h5>
     </v-card-title>
     <v-card-text>
       <v-row>
-        <v-col :cols="isUserLoggedIn ? '9' : '12'">
+        <v-col :cols="user ? '9' : '12'">
           <v-btn
             class="rounded-xl"
             width="280"
@@ -64,7 +59,7 @@ function goToRecipe() {
           </v-btn>
         </v-col>
         <v-col align="center">
-          <FavouritesHeart :cocktail="cocktail" />
+          <FavouritesHeart v-if="user" :cocktail="cocktail" />
         </v-col>
       </v-row>
     </v-card-text>

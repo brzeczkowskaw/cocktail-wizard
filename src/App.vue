@@ -39,4 +39,9 @@ const layoutComponent = computed(() => {
   padding: 0;
   text-align: center;
 }
+@media screen and (max-width: 1000px) {
+  body {
+    overflow-x: none;
+  }
+}
 </style>
