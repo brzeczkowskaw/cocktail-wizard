@@ -72,20 +72,27 @@ function menuActionClick(action: string) {
   if (action === 'login') {
     router.push("/sign-in");
   }
-}
-
-async function logout() {
-  try {
-    await authorisationStore.logout();
-    router.push("/");
-  } catch(error) {
-    alert(error.message)
+  if (action === 'goToHomePage') {
+    goToHomePage();
   }
 }
 
 function goToHomePage() {
   router.push("/");
 }
+
+async function logout() {
+  try {
+    await authorisationStore.logout();
+    goToHomePage();
+  } catch(error: any) {
+    alert(error.message)
+  }
+}
+
+const userDisplay = computed(() => {
+  return authorisationStore.user?.displayName || authorisationStore.user?.email || ''
+})
 </script>
 
 <template>
@@ -101,14 +108,14 @@ function goToHomePage() {
         <h3 :class="isUserLoggedIn ? 'app-name' : 'ml-6'">Cocktail wizard</h3>
         <v-spacer />
         <div v-if="isUserLoggedIn">
-          Hello <b>{{ authorisationStore.user.displayName || authorisationStore.user.email }}</b>!
+          Hello <b>{{ userDisplay }}</b>!
         </div>
         <div v-else>
           <v-icon>mdi-account-circle</v-icon>
         </div>
         <v-menu>
           <template #activator="{ props }">
-            <v-btn text v-bind="props">
+            <v-btn variant="text" v-bind="props">
               <v-icon>mdi-chevron-down</v-icon>
             </v-btn>
           </template>
