@@ -101,5 +101,16 @@ export const useCocktailsStore = defineStore("cocktailsStore", {
         alert(error.message);
       }
     },
+    clearStore() {
+      this.cocktails = [];
+      this.isLoadingCocktails = false;
+      this.cocktail = null;
+      this.tagsInfo =  {
+        categories: [],
+        glasses: [],
+        ingredients: [],
+        alcoholicFilters: [],
+      }
+    }
   },
 });

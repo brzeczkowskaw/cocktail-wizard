@@ -6,6 +6,7 @@ import "firebase/compat/firestore";
 import firestoreDB from "../main.ts";
 import { collection, setDoc, doc } from "firebase/firestore";
 import { useBarStore } from "./bar.ts";
+import { useCocktailsStore } from "./cocktails.ts";
 
 export const useAuthorisationStore = defineStore("authorisationStore", {
   state: (): AuthorisationState => ({
@@ -83,6 +84,8 @@ export const useAuthorisationStore = defineStore("authorisationStore", {
         firebase.auth().signOut();
         this.user = null;
         this.loginMessageError = null;
+        useBarStore().clearStore();
+        useCocktailsStore().clearStore();
       } catch (error: any) {
         alert(error.message);
       }
